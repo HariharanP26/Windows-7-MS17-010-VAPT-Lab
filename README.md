@@ -176,11 +176,11 @@ SMB enumeration was performed to identify accessible shares and gather system in
 ### Screenshots
 
 ```
-screenshots/02-smb-enum.png
+Screenshots/02-smb-enum.png
 
-screenshots/03-smbclient.png
+Screenshots/03-smbclient.png
 
-screenshots/04-enum4linux.png
+Screenshots/04-enum4linux.png
 ```
 
 ---
@@ -202,7 +202,7 @@ Nmap NSE scripts were used to validate known SMB vulnerabilities.
 ### Screenshot
 
 ```
-screenshots/05-ms17-vulnerability.png
+Screenshots/05-ms17-vulnerability.png
 ```
 
 ---
@@ -231,11 +231,11 @@ exploit/windows/smb/ms17_010_eternalblue
 ### Screenshots
 
 ```
-screenshots/06-metasploit-search.png
+Screenshots/06-metasploit-search.png
 
-screenshots/07-module-options.png
+Screenshots/07-module-options.png
 
-screenshots/08-running-exploit.png
+Screenshots/08-running-exploit.png
 ```
 
 ---
@@ -267,7 +267,7 @@ Directory Listing : C:\
 ### Screenshot
 
 ```
-screenshots/09-meterpreter-session.png
+Screenshots/09-meterpreter-session.png
 ```
 
 ---
@@ -335,7 +335,7 @@ Windows-7-MS17-010-VAPT-Lab/
 
 ├── README.md
 
-├── screenshots/
+├── Screenshots/
 
 ├── reports/
 
