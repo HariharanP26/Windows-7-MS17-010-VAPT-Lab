@@ -166,23 +166,25 @@ Successful exploitation resulted in unauthenticated remote code execution with *
 
 ---
 '''
-## Repository Structure
+## 📁 Repository Structure
+
+```text
 Windows-7-MS17-010-VAPT-Lab/
+│
 ├── README.md
 ├── LICENSE
+│
 └── Screenshots/
-├── 01-nmap-service-scan.png
-├── 02-smb-enum.png
-├── 03-smbclient.png
-├── 04-enum4linux.png
-├── 05-ms17-vulnerability.png
-├── 06-metasploit-search.png
-├── 07-module-options.png
-├── 08-running-exploit.png
-└── 09-meterpreter-session.png
-'''
----
-
+    ├── 01-nmap-service-scan.png
+    ├── 02-smb-enum.png
+    ├── 03-smbclient.png
+    ├── 04-enum4linux.png
+    ├── 05-ms17-vulnerability.png
+    ├── 06-metasploit-search.png
+    ├── 07-module-options.png
+    ├── 08-running-exploit.png
+    └── 09-meterpreter-session.png
+```
 ## Author
 
 **Hariharan P**
