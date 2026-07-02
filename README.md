@@ -165,7 +165,7 @@ Successful exploitation resulted in unauthenticated remote code execution with *
 - Technical documentation and reporting
 
 ---
-
+'''
 ## Repository Structure
 Windows-7-MS17-010-VAPT-Lab/
 ├── README.md
@@ -180,7 +180,7 @@ Windows-7-MS17-010-VAPT-Lab/
 ├── 07-module-options.png
 ├── 08-running-exploit.png
 └── 09-meterpreter-session.png
-
+'''
 ---
 
 ## Author
