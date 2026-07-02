@@ -44,7 +44,7 @@ arp-scan --localnet
 ping -c 4 <target-ip>
 ```
 
-![Host Discovery](Screenshots/01-host-discovery.png)
+
 
 ### 2. Enumeration
 Performed a full port and service scan to identify open services and versions.
@@ -59,7 +59,7 @@ PORT     STATE SERVICE      VERSION
 139/tcp  open  netbios-ssn  Microsoft Windows netbios-ssn
 445/tcp  open  microsoft-ds Microsoft Windows 7 - 10 microsoft-ds
 
-![Nmap Service Scan](Screenshots/02-nmap-service-scan.png)
+![Nmap Service Scan](Screenshots/01-nmap-service-scan.png)
 
 ### 3. Vulnerability Assessment
 Ran Nmap's SMB vulnerability scripts to confirm exposure to MS17-010.
@@ -76,7 +76,7 @@ nmap --script smb-vuln-ms17-010 -p445 <target-ip>
 |     IDs: CVE:CVE-2017-0143
 |     Risk factor: HIGH
 
-![Vulnerability Scan](Screenshots/03-smb-vuln-scan.png)
+![Vulnerability Scan](Screenshots/02-smb-enum.png)
 
 ### 4. Exploitation
 Used Metasploit's EternalBlue module to gain remote code execution.
